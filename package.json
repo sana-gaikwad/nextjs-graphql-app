@@ -1,0 +1,35 @@
+{
+  "name": "nextjs-graphql-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write \"**/*.{json,js,ts,tsx,yml,md}\" --list-different .",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": "yarn lint --fix",
+    "*.{js,jsx,css,md}": "prettier --write"
+  },
+  "dependencies": {
+    "next": "14.2.7",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.7",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "typescript": "^5"
+  }
+}
