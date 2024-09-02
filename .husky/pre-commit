@@ -1,3 +1,2 @@
 yarn lint-staged
 echo "Completed pre-commit hook."
-exit 1
