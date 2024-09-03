@@ -10,14 +10,19 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --check .",
     "format:fix": "prettier --write \"**/*.{json,js,ts,tsx,yml,md}\" --list-different .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "generate": "graphql-codegen"
   },
   "dependencies": {
+    "@apollo/client": "^3.11.5",
+    "graphql": "^16.9.0",
     "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/client-preset": "^4.3.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
