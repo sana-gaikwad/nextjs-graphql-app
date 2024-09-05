@@ -1,7 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import { Heading } from "@/components/common/heading";
-import { Input } from "@/components/common/InputField";
-import { Button } from "@/components/common/button";
+import { Button, Heading, Input } from "@/components";
 
 export default function Login() {
   return (

@@ -1,13 +1,5 @@
-import {
-  Input as ChakraInput,
-  InputProps as ChakraInputProps,
-  Text,
-} from "@chakra-ui/react";
-
-interface InputProps extends ChakraInputProps {
-  placeholder: string;
-  label: string;
-}
+import { Input as ChakraInput, Text } from "@chakra-ui/react";
+import { InputProps } from "./Input.types";
 
 export const Input = ({ placeholder, label, ...props }: InputProps) => {
   return (
