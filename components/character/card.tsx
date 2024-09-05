@@ -1,41 +1,36 @@
 import {
-  Card,
+  Card as ChakraCard,
   CardBody,
   CardFooter,
-  CardProps,
+  CardProps as ChakraCardProps,
   Stack,
   Divider,
   Image,
 } from "@chakra-ui/react";
-import { HeadingComponent } from "../common/heading";
-import { ButtonComponent } from "../common/button";
+import { Heading } from "../common/heading";
+import { Button } from "../common/button";
 
-interface CardComponentProps extends CardProps {
+interface CardProps extends ChakraCardProps {
   title: string;
   image: string;
   onClick: () => void;
 }
 
-export const CardComponent = ({
-  title,
-  image,
-  onClick,
-  ...props
-}: CardComponentProps) => {
+export const Card = ({ title, image, onClick, ...props }: CardProps) => {
   return (
     <>
-      <Card maxW="sm" {...props}>
+      <ChakraCard maxW="sm" {...props}>
         <CardBody>
           <Image src={image} alt={title} borderRadius="lg" height={200} />
           <Stack mt="6" spacing="3">
-            <HeadingComponent size="sm" text={title}></HeadingComponent>
+            <Heading size="sm">{title}</Heading>
           </Stack>
         </CardBody>
         <Divider />
         <CardFooter mt={"auto"}>
-          <ButtonComponent label="Details" onClick={onClick}></ButtonComponent>
+          <Button onClick={onClick}>View Details</Button>
         </CardFooter>
-      </Card>
+      </ChakraCard>
     </>
   );
 };

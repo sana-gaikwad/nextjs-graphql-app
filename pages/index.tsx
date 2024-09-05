@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
-import { HeadingComponent } from "@/components/common/heading";
-import { InputComponent } from "@/components/common/InputField";
-import { ButtonComponent } from "@/components/common/button";
+import { Heading } from "@/components/common/heading";
+import { Input } from "@/components/common/InputField";
+import { Button } from "@/components/common/button";
 
 export default function Login() {
   return (
@@ -15,20 +15,22 @@ export default function Login() {
           direction={"column"}
           width={500}
         >
-          <HeadingComponent mb={10} text="Log In"></HeadingComponent>
-          <InputComponent
+          <Heading mb={10}>Log In</Heading>
+          <Input
             placeholder="Enter your username here..."
             label="Enter Your Username"
             variant={"filled"}
             mb={6}
-          ></InputComponent>
-          <InputComponent
+          ></Input>
+          <Input
             placeholder="Enter your job title here..."
             label="Enter Your Job Title"
             variant={"filled"}
             mb={10}
-          ></InputComponent>
-          <ButtonComponent size={"lg"} label="Log In"></ButtonComponent>
+          ></Input>
+          <Button size={"lg"} onClick={() => null}>
+            Log In
+          </Button>
         </Flex>
       </Flex>
     </>

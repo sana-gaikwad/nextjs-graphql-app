@@ -1,13 +1,17 @@
-import { Heading, HeadingProps } from "@chakra-ui/react";
+import {
+  Heading as ChakraHeading,
+  HeadingProps as ChakraHeadingProps,
+} from "@chakra-ui/react";
+import { ReactNode } from "react";
 
-interface HeadingComponentProps extends HeadingProps {
-  text: string;
+interface HeadingProps extends ChakraHeadingProps {
+  children: ReactNode;
 }
 
-export const HeadingComponent = ({ text, ...props }: HeadingComponentProps) => {
+export const Heading = ({ children, ...props }: HeadingProps) => {
   return (
     <>
-      <Heading {...props}>{text}</Heading>
+      <ChakraHeading {...props}>{children}</ChakraHeading>
     </>
   );
 };

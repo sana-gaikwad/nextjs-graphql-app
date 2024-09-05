@@ -1,21 +1,18 @@
-import { Button, ButtonProps } from "@chakra-ui/react";
+import {
+  Button as ChakraButton,
+  ButtonProps as ChakraButtonProps,
+} from "@chakra-ui/react";
+import { ReactNode } from "react";
 
-interface ButtonComponentProps extends ButtonProps {
-  label: string;
+interface ButtonProps extends ChakraButtonProps {
+  children: ReactNode;
   onClick: () => void;
 }
 
-export const ButtonComponent = ({
-  label,
-  onClick,
-  ...props
-}: ButtonComponentProps) => {
+export const Button = ({ children, onClick, ...props }: ButtonProps) => {
   return (
-    <>
-      <Button {...props} colorScheme="teal" onClick={onClick}>
-        {" "}
-        {label}
-      </Button>
-    </>
+      <ChakraButton {...props} colorScheme="teal" onClick={onClick}>
+        {children}
+      </ChakraButton>
   );
 };

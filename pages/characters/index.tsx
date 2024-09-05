@@ -1,10 +1,17 @@
 import { useQuery } from "@apollo/client";
 import { CHARACTERS_QUERY } from "@/graphql/characters";
-import { CardComponent } from "@/components/character/card";
-import { Flex, SimpleGrid, Text, VStack } from "@chakra-ui/react";
-import { ModalComponent } from "@/components/character/modal";
+import { Card } from "@/components/character/card";
+import {
+  Flex,
+  SimpleGrid,
+  Text,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
+import { Modal } from "@/components/character/modal";
 import { Character } from "@/__generated__/graphql";
 import { useState } from "react";
+import { Pagination } from "@/components/common/pagination";
 
 export default function Home() {
   const { data } = useQuery(CHARACTERS_QUERY);
@@ -13,7 +20,10 @@ export default function Home() {
 
   const handleClick = (character: Partial<Character> | null) => {
     setSelectedCharacter(character ?? null);
+    onOpen();
   };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -25,16 +35,16 @@ export default function Home() {
       >
         {data?.characters?.results?.map((character) => (
           <div key={character?.id}>
-            <CardComponent
+            <Card
               title={character?.name ?? ""}
               image={character?.image ?? ""}
-              onClick={() => handleClick(character ?? null)}
-            ></CardComponent>
+              onClick={() => handleClick(character)}
+            ></Card>
           </div>
         ))}
-        <ModalComponent
-          isOpen={!!selectedCharacter}
-          onClose={() => setSelectedCharacter(null)}
+        <Modal
+          isOpen={isOpen}
+          onClose={onClose}
           title={selectedCharacter?.name ?? ""}
         >
           <Flex>
@@ -47,8 +57,9 @@ export default function Home() {
               </Text>
             </VStack>
           </Flex>
-        </ModalComponent>
+        </Modal>
       </SimpleGrid>
+      <Pagination postsPerPage={10} length={100} />
     </>
   );
 }
