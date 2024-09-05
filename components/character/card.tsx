@@ -13,11 +13,13 @@ import { ButtonComponent } from "../common/button";
 interface CardComponentProps extends CardProps {
   title: string;
   image: string;
+  onClick: () => void;
 }
 
 export const CardComponent = ({
   title,
   image,
+  onClick,
   ...props
 }: CardComponentProps) => {
   return (
@@ -31,7 +33,7 @@ export const CardComponent = ({
         </CardBody>
         <Divider />
         <CardFooter mt={"auto"}>
-          <ButtonComponent label="Click here"></ButtonComponent>
+          <ButtonComponent label="Details" onClick={onClick}></ButtonComponent>
         </CardFooter>
       </Card>
     </>
