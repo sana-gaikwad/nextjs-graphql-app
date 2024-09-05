@@ -1,32 +1,36 @@
-import { useQuery } from "@apollo/client";
-import { CHARACTERS_QUERY } from "@/graphql/characters";
-import Image from "next/image";
-import Link from "next/link";
+import { Flex } from "@chakra-ui/react";
+import { HeadingComponent } from "@/components/common/heading";
+import { InputComponent } from "@/components/common/InputField";
+import { ButtonComponent } from "@/components/common/button";
 
-export default function Home() {
-  const { data } = useQuery(CHARACTERS_QUERY);
-  //TODO: Loading and Error States
+export default function Login() {
   return (
     <>
-      <div>
-        {data?.characters?.results?.map((character) => (
-          <div key={character?.id}>
-            <Link
-              href={{
-                pathname: "/characters/[slug]",
-                query: { slug: character?.id },
-              }}
-            >
-              <Image
-                src={character?.image ?? ""}
-                alt={character?.name ?? ""}
-                width="200"
-                height="200"
-              />
-            </Link>
-          </div>
-        ))}
-      </div>
+      <Flex justifyContent={"center"} alignItems={"center"} height={"100vh"}>
+        <Flex
+          background={"gray.300"}
+          p={10}
+          rounded={6}
+          m={10}
+          direction={"column"}
+          width={500}
+        >
+          <HeadingComponent mb={10} text="Log In"></HeadingComponent>
+          <InputComponent
+            placeholder="Enter your username here..."
+            label="Enter Your Username"
+            variant={"filled"}
+            mb={6}
+          ></InputComponent>
+          <InputComponent
+            placeholder="Enter your job title here..."
+            label="Enter Your Job Title"
+            variant={"filled"}
+            mb={10}
+          ></InputComponent>
+          <ButtonComponent size={"lg"} label="Log In"></ButtonComponent>
+        </Flex>
+      </Flex>
     </>
   );
 }
