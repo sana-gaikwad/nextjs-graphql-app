@@ -62,8 +62,10 @@ export default function Home() {
   return (
     <>
       <Flex p={16} direction={"column"} background={"gray.400"}>
-        <Heading>Welcome {username}</Heading>
-        <Heading size={"sm"}>{jobTitle}</Heading>
+        <Heading as="h1">Welcome {username}</Heading>
+        <Heading as="h2" size={"sm"}>
+          {jobTitle}
+        </Heading>
         <Link href="/">
           <EditIcon mr={2} />
           Edit details

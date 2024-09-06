@@ -5,6 +5,7 @@ import { ModalProvider } from "@/components/modal";
 import ReduxProvider from "@/redux/provider";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor } from "@/redux/store";
+import { Layout } from "@/components";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -13,7 +14,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <ModalProvider>
           <ReduxProvider>
             <PersistGate loading={null} persistor={persistor}>
-              <Component {...pageProps} />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
             </PersistGate>
           </ReduxProvider>
         </ModalProvider>

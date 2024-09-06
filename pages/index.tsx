@@ -34,7 +34,9 @@ export default function Login() {
           direction={"column"}
           width={500}
         >
-          <Heading mb={5}>Welcome</Heading>
+          <Heading as={"h1"} mb={5}>
+            Welcome
+          </Heading>
           <Heading size={"sm"} mb={10}>
             Please enter your username and job title
           </Heading>
