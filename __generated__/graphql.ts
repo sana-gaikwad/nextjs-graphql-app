@@ -207,7 +207,9 @@ export type QueryLocationsByIdsArgs = {
   ids: Array<Scalars["ID"]["input"]>;
 };
 
-export type CharactersQueryVariables = Exact<{ [key: string]: never }>;
+export type CharactersQueryVariables = Exact<{
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+}>;
 
 export type CharactersQuery = {
   __typename?: "Query";
@@ -231,27 +233,6 @@ export type CharactersQuery = {
   } | null;
 };
 
-export type CharacterQueryVariables = Exact<{
-  id: Scalars["ID"]["input"];
-}>;
-
-export type CharacterQuery = {
-  __typename?: "Query";
-  character?: {
-    __typename?: "Character";
-    id?: string | null;
-    image?: string | null;
-    name?: string | null;
-    gender?: string | null;
-    species?: string | null;
-    origin?: {
-      __typename?: "Location";
-      dimension?: string | null;
-      id?: string | null;
-    } | null;
-  } | null;
-};
-
 export const CharactersDocument = {
   kind: "Document",
   definitions: [
@@ -259,12 +240,29 @@ export const CharactersDocument = {
       kind: "OperationDefinition",
       operation: "query",
       name: { kind: "Name", value: "characters" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "page" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+        },
+      ],
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
             name: { kind: "Name", value: "characters" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "page" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "page" },
+                },
+              },
+            ],
             selectionSet: {
               kind: "SelectionSet",
               selections: [
@@ -309,66 +307,3 @@ export const CharactersDocument = {
     },
   ],
 } as unknown as DocumentNode<CharactersQuery, CharactersQueryVariables>;
-export const CharacterDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "character" },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
-          type: {
-            kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "character" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "id" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "id" },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                { kind: "Field", name: { kind: "Name", value: "image" } },
-                { kind: "Field", name: { kind: "Name", value: "name" } },
-                { kind: "Field", name: { kind: "Name", value: "gender" } },
-                { kind: "Field", name: { kind: "Name", value: "species" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "origin" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "dimension" },
-                      },
-                      { kind: "Field", name: { kind: "Name", value: "id" } },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<CharacterQuery, CharacterQueryVariables>;
