@@ -2,11 +2,9 @@ import { useQuery } from "@apollo/client";
 import { CHARACTERS_QUERY } from "@/graphql/characters";
 import { Flex, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { Character } from "@/__generated__/graphql";
-import { Card, Heading, Pagination, useModal } from "@/components";
+import { Card, Heading, Link, Pagination, useModal } from "@/components";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
-import { Link as ChakraLink } from "@chakra-ui/react";
-import NextLink from "next/link";
 import { EditIcon } from "@chakra-ui/icons";
 
 export default function Home() {
@@ -66,10 +64,10 @@ export default function Home() {
       <Flex p={16} direction={"column"} background={"gray.400"}>
         <Heading>Welcome {username}</Heading>
         <Heading size={"sm"}>{jobTitle}</Heading>
-        <ChakraLink as={NextLink} href="/">
+        <Link href="/">
           <EditIcon mr={2} />
           Edit details
-        </ChakraLink>
+        </Link>
       </Flex>
       <Flex p={16} direction={"column"} background={"gray.300"} gap={12}>
         <SimpleGrid

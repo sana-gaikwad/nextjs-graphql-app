@@ -3,13 +3,20 @@ import { Button, Heading, Input } from "@/components";
 import { useState } from "react";
 import { saveUser } from "@/redux/features/userSlice";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
+import { AppDispatch, useAppSelector } from "@/redux/store";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [jobTitle, setJobTitle] = useState("");
+  const usernameState = useAppSelector(
+    (state) => state.persistedReducer.userReducer.value.username,
+  );
+  const jobTitleState = useAppSelector(
+    (state) => state.persistedReducer.userReducer.value.jobTitle,
+  );
+
+  const [username, setUsername] = useState(usernameState || "");
+  const [jobTitle, setJobTitle] = useState(jobTitleState || "");
   const dispatch = useDispatch<AppDispatch>();
 
   const handleSaveUser = () => {
@@ -35,6 +42,7 @@ export default function Login() {
             placeholder="Enter your username here..."
             label="Enter Your Username"
             variant={"filled"}
+            value={username}
             mb={6}
             onChange={(e) => setUsername(e.target.value)}
           ></Input>
@@ -42,6 +50,7 @@ export default function Login() {
             placeholder="Enter your job title here..."
             label="Enter Your Job Title"
             variant={"filled"}
+            value={jobTitle}
             mb={10}
             onChange={(e) => setJobTitle(e.target.value)}
           ></Input>
