@@ -5,6 +5,8 @@ import { Character } from "@/__generated__/graphql";
 import { Card, Heading, Pagination, useModal } from "@/components";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
+import { Link as ChakraLink } from "@chakra-ui/react";
+import NextLink from "next/link";
 
 export default function Home() {
   const { openModal } = useModal();
@@ -13,8 +15,12 @@ export default function Home() {
   const params = useSearchParams();
 
   const pageNum = Number(params.get("page")) ?? 1;
-  const username = useAppSelector((state) => state.authReducer.value.username);
-  const jobTitle = useAppSelector((state) => state.authReducer.value.jobTitle);
+  const username = useAppSelector(
+    (state) => state.persistedReducer.userReducer.value.username,
+  );
+  const jobTitle = useAppSelector(
+    (state) => state.persistedReducer.userReducer.value.jobTitle,
+  );
 
   const handleSearchParams = (pageClicked: number) => {
     const urlParams = new URLSearchParams();
@@ -59,6 +65,9 @@ export default function Home() {
       <Flex p={16} direction={"column"} background={"gray.400"}>
         <Heading>Welcome {username}</Heading>
         <Heading size={"sm"}>{jobTitle}</Heading>
+        <ChakraLink as={NextLink} href="/">
+          Edit details
+        </ChakraLink>
       </Flex>
       <Flex p={16} direction={"column"} background={"gray.300"} gap={12}>
         <SimpleGrid
