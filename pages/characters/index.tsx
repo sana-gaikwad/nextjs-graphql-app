@@ -1,29 +1,32 @@
 import { useQuery } from "@apollo/client";
 import { CHARACTERS_QUERY } from "@/graphql/characters";
-import { Card } from "@/components/character/card";
-import {
-  Flex,
-  SimpleGrid,
-  Text,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react";
-import { Modal } from "@/components/character/modal";
+import { Flex, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { Character } from "@/__generated__/graphql";
-import { useState } from "react";
-import { Pagination } from "@/components/common/pagination";
+import { Card, useModal } from "@/components";
+import { Pagination } from "@/components/pagination";
 
 export default function Home() {
   const { data } = useQuery(CHARACTERS_QUERY);
-  const [selectedCharacter, setSelectedCharacter] =
-    useState<Partial<Character> | null>(null);
+
+  const { openModal } = useModal();
 
   const handleClick = (character: Partial<Character> | null) => {
-    setSelectedCharacter(character ?? null);
-    onOpen();
+    openModal({
+      title: character?.name ?? "",
+      children: (
+        <Flex>
+          <VStack w="full" align="flex-start">
+            <Text>
+              <b>Species:</b> {character?.species}
+            </Text>
+            <Text>
+              <b>Gender:</b> {character?.gender}
+            </Text>
+          </VStack>
+        </Flex>
+      ),
+    });
   };
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -38,26 +41,10 @@ export default function Home() {
             <Card
               title={character?.name ?? ""}
               image={character?.image ?? ""}
-              onClick={() => handleClick(character)}
+              onClick={() => handleClick(character ?? {})}
             ></Card>
           </div>
         ))}
-        <Modal
-          isOpen={isOpen}
-          onClose={onClose}
-          title={selectedCharacter?.name ?? ""}
-        >
-          <Flex>
-            <VStack w="full" align="flex-start">
-              <Text>
-                <b>Species:</b> {selectedCharacter?.species}
-              </Text>
-              <Text>
-                <b>Gender:</b> {selectedCharacter?.gender}
-              </Text>
-            </VStack>
-          </Flex>
-        </Modal>
       </SimpleGrid>
       <Pagination postsPerPage={10} length={100} />
     </>

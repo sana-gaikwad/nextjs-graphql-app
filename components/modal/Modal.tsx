@@ -6,17 +6,17 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  ModalProps as ChakraModalProps,
 } from "@chakra-ui/react";
-import { Button } from "../common/button";
-import React, { ReactNode } from "react";
+import React from "react";
+import { ModalComponentProps } from "./Modal.types";
+import { Button } from "../button";
 
-interface ModalProps extends ChakraModalProps {
-  title: string;
-  children: ReactNode;
-  onClose: () => void;
-}
-export const Modal = ({ title, children, onClose, ...props }: ModalProps) => {
+export const Modal = ({
+  title,
+  children,
+  onClose,
+  ...props
+}: ModalComponentProps) => {
   return (
     <>
       <ChakraModal {...props} onClose={onClose} isCentered>
