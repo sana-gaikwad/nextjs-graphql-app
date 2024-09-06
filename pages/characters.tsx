@@ -2,8 +2,9 @@ import { useQuery } from "@apollo/client";
 import { CHARACTERS_QUERY } from "@/graphql/characters";
 import { Flex, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { Character } from "@/__generated__/graphql";
-import { Card, Pagination, useModal } from "@/components";
+import { Card, Heading, Pagination, useModal } from "@/components";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useAppSelector } from "@/redux/store";
 
 export default function Home() {
   const { openModal } = useModal();
@@ -12,6 +13,8 @@ export default function Home() {
   const params = useSearchParams();
 
   const pageNum = Number(params.get("page")) ?? 1;
+  const username = useAppSelector((state) => state.authReducer.value.username);
+  const jobTitle = useAppSelector((state) => state.authReducer.value.jobTitle);
 
   const handleSearchParams = (pageClicked: number) => {
     const urlParams = new URLSearchParams();
@@ -52,26 +55,32 @@ export default function Home() {
   };
 
   return (
-    <Flex p={16} direction={"column"} background={"gray.300"} gap={12}>
-      <SimpleGrid
-        spacing={4}
-        templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
-      >
-        {data?.characters?.results?.map((character) => (
-          <div key={character?.id}>
-            <Card
-              title={character?.name ?? ""}
-              image={character?.image ?? ""}
-              onClick={() => handleClick(character ?? {})}
-            ></Card>
-          </div>
-        ))}
-      </SimpleGrid>
-      <Pagination
-        totalPages={data?.characters?.info?.pages ?? 0}
-        currentPage={pageNum}
-        onClick={handleSearchParams}
-      ></Pagination>
-    </Flex>
+    <>
+      <Flex p={16} direction={"column"} background={"gray.400"}>
+        <Heading>Welcome {username}</Heading>
+        <Heading size={"sm"}>{jobTitle}</Heading>
+      </Flex>
+      <Flex p={16} direction={"column"} background={"gray.300"} gap={12}>
+        <SimpleGrid
+          spacing={4}
+          templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+        >
+          {data?.characters?.results?.map((character) => (
+            <div key={character?.id}>
+              <Card
+                title={character?.name ?? ""}
+                image={character?.image ?? ""}
+                onClick={() => handleClick(character ?? {})}
+              ></Card>
+            </div>
+          ))}
+        </SimpleGrid>
+        <Pagination
+          totalPages={data?.characters?.info?.pages ?? 0}
+          currentPage={pageNum}
+          onClick={handleSearchParams}
+        ></Pagination>
+      </Flex>
+    </>
   );
 }
