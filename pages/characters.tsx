@@ -7,6 +7,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { EditIcon } from "@chakra-ui/icons";
 
 export default function Home() {
   const { openModal } = useModal();
@@ -66,6 +67,7 @@ export default function Home() {
         <Heading>Welcome {username}</Heading>
         <Heading size={"sm"}>{jobTitle}</Heading>
         <ChakraLink as={NextLink} href="/">
+          <EditIcon mr={2} />
           Edit details
         </ChakraLink>
       </Flex>
