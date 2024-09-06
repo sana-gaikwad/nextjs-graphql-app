@@ -2,13 +2,36 @@ import { useQuery } from "@apollo/client";
 import { CHARACTERS_QUERY } from "@/graphql/characters";
 import { Flex, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { Character } from "@/__generated__/graphql";
-import { Card, useModal } from "@/components";
-import { Pagination } from "@/components/pagination";
+import { Card, Pagination, useModal } from "@/components";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function Home() {
-  const { data } = useQuery(CHARACTERS_QUERY);
-
   const { openModal } = useModal();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const params = useSearchParams();
+
+  const pageNum = Number(params.get("page")) ?? 1;
+
+  const handleSearchParams = (pageClicked: number) => {
+    const urlParams = new URLSearchParams();
+    urlParams.set("page", pageClicked.toString());
+    replace(`${pathname}?${urlParams.toString()}`);
+  };
+
+  const { data, loading } = useQuery(CHARACTERS_QUERY, {
+    variables: {
+      page: pageNum,
+    },
+  });
+
+  if (loading) {
+    return (
+      <Flex justifyContent={"center"} alignItems={"center"} height={"100vh"}>
+        Loading...
+      </Flex>
+    );
+  }
 
   const handleClick = (character: Partial<Character> | null) => {
     openModal({
@@ -29,12 +52,10 @@ export default function Home() {
   };
 
   return (
-    <>
+    <Flex p={16} direction={"column"} background={"gray.300"} gap={12}>
       <SimpleGrid
         spacing={4}
         templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
-        p={16}
-        background={"gray.300"}
       >
         {data?.characters?.results?.map((character) => (
           <div key={character?.id}>
@@ -46,7 +67,11 @@ export default function Home() {
           </div>
         ))}
       </SimpleGrid>
-      <Pagination postsPerPage={10} length={100} />
-    </>
+      <Pagination
+        totalPages={data?.characters?.info?.pages ?? 0}
+        currentPage={pageNum}
+        onClick={handleSearchParams}
+      ></Pagination>
+    </Flex>
   );
 }

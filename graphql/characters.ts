@@ -1,8 +1,8 @@
 import { gql } from "../__generated__/gql";
 
 export const CHARACTERS_QUERY = gql(`
-  query characters {
-    characters {
+  query characters($page: Int) {
+    characters(page: $page) {
       info {
         count
         pages
@@ -15,22 +15,6 @@ export const CHARACTERS_QUERY = gql(`
         name
         gender
         species
-      }
-    }
-  }
-`);
-
-export const CHARACTER_QUERY = gql(`
-  query character($id: ID!) {
-    character(id: $id) {
-      id
-      image
-      name
-      gender
-      species
-      origin {
-        dimension
-        id
       }
     }
   }
