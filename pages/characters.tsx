@@ -20,13 +20,8 @@ export default function Home() {
   const { replace } = useRouter();
   const params = useSearchParams();
 
-  const pageNum = Number(params.get("page")) ?? 1;
-  const username = useAppSelector(
-    (state) => state.persistedReducer.userReducer.value.username,
-  );
-  const jobTitle = useAppSelector(
-    (state) => state.persistedReducer.userReducer.value.jobTitle,
-  );
+  const pageNumber = Number(params.get("page")) ?? 1;
+  const user = useAppSelector((state) => state.persistedReducer.userReducer);
 
   const handleSearchParams = (pageClicked: number) => {
     const urlParams = new URLSearchParams();
@@ -36,22 +31,36 @@ export default function Home() {
 
   const { data, loading, error } = useQuery(CHARACTERS_QUERY, {
     variables: {
-      page: pageNum,
+      page: pageNumber,
     },
   });
+
+  function CharacterInfo({
+    label,
+    value,
+  }: {
+    label: string;
+    value?: string | null;
+  }) {
+    return (
+      <Text fontSize="md">
+        <b>{label}:</b> {value || "N/A"}
+      </Text>
+    );
+  }
 
   const handleClick = (character: Partial<Character> | null) => {
     openModal({
       title: character?.name ?? "",
       children: (
-        <Flex>
-          <VStack w="full" align="flex-start">
-            <Text>
-              <b>Species:</b> {character?.species}
-            </Text>
-            <Text>
-              <b>Gender:</b> {character?.gender}
-            </Text>
+        <Flex direction="column">
+          <VStack align="flex-start" spacing={4}>
+            <CharacterInfo label="Species" value={character?.species} />
+            <CharacterInfo label="Gender" value={character?.gender} />
+            {character?.type && (
+              <CharacterInfo label="Type" value={character.type} />
+            )}
+            <CharacterInfo label="Status" value={character?.status} />
           </VStack>
         </Flex>
       ),
@@ -61,9 +70,9 @@ export default function Home() {
   return (
     <>
       <Flex p={8} direction={"column"} background={"teal.500"}>
-        <Heading as="h1">Welcome {username}</Heading>
+        <Heading as="h1">Welcome {user.username}</Heading>
         <Heading as="h2" size={"sm"}>
-          {jobTitle}
+          {user.jobTitle}
         </Heading>
         <Link href="/">
           <EditIcon mr={2} />
@@ -105,7 +114,7 @@ export default function Home() {
                   </SimpleGrid>
                   <Pagination
                     totalPages={data?.characters?.info?.pages ?? 1}
-                    currentPage={pageNum}
+                    currentPage={pageNumber}
                     onClick={handleSearchParams}
                   ></Pagination>
                 </>

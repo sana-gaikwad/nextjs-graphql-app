@@ -8,19 +8,13 @@ import { useRouter } from "next/navigation";
 
 export default function Login() {
   const router = useRouter();
-  const usernameState = useAppSelector(
-    (state) => state.persistedReducer.userReducer.value.username,
-  );
-  const jobTitleState = useAppSelector(
-    (state) => state.persistedReducer.userReducer.value.jobTitle,
-  );
+  const user = useAppSelector((state) => state.persistedReducer.userReducer);
 
-  const [username, setUsername] = useState(usernameState || "");
-  const [jobTitle, setJobTitle] = useState(jobTitleState || "");
+  const [userDetails, setUserDetails] = useState(user || {});
   const dispatch = useDispatch<AppDispatch>();
 
   const handleSaveUser = () => {
-    dispatch(saveUser({ username, jobTitle }));
+    dispatch(saveUser(userDetails));
     router.push("/characters");
   };
   return (
@@ -44,17 +38,21 @@ export default function Login() {
             placeholder="Enter your username here..."
             label="Enter Your Username"
             variant={"filled"}
-            value={username}
+            value={userDetails.username}
+            onChange={(e) =>
+              setUserDetails({ ...userDetails, username: e.target.value })
+            }
             mb={6}
-            onChange={(e) => setUsername(e.target.value)}
           ></Input>
           <Input
             placeholder="Enter your job title here..."
             label="Enter Your Job Title"
             variant={"filled"}
-            value={jobTitle}
+            value={userDetails.jobTitle}
             mb={10}
-            onChange={(e) => setJobTitle(e.target.value)}
+            onChange={(e) =>
+              setUserDetails({ ...userDetails, jobTitle: e.target.value })
+            }
           ></Input>
           <Button size={"lg"} onClick={handleSaveUser}>
             Save & Continue
