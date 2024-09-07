@@ -2,7 +2,14 @@ import { useQuery } from "@apollo/client";
 import { CHARACTERS_QUERY } from "@/graphql/characters";
 import { Flex, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { Character } from "@/__generated__/graphql";
-import { Card, Heading, Link, Pagination, useModal } from "@/components";
+import {
+  Card,
+  Heading,
+  Link,
+  Pagination,
+  Spinner,
+  useModal,
+} from "@/components";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAppSelector } from "@/redux/store";
 import { EditIcon } from "@chakra-ui/icons";
@@ -36,7 +43,7 @@ export default function Home() {
   if (loading) {
     return (
       <Flex justifyContent={"center"} alignItems={"center"} height={"100vh"}>
-        Loading...
+        <Spinner size={"xl"}></Spinner>
       </Flex>
     );
   }

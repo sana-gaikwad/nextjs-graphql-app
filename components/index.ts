@@ -6,3 +6,4 @@ export * from "./pagination";
 export * from "./card";
 export * from "./link";
 export * from "./layout";
+export * from "./spinner";
