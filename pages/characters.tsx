@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client";
 import { CHARACTERS_QUERY } from "@/graphql/characters";
-import { Flex, SimpleGrid, Text, VStack } from "@chakra-ui/react";
+import { Container, Flex, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { Character } from "@/__generated__/graphql";
 import {
   Card,
@@ -34,7 +34,7 @@ export default function Home() {
     replace(`${pathname}?${urlParams.toString()}`);
   };
 
-  const { data, loading } = useQuery(CHARACTERS_QUERY, {
+  const { data, loading, error } = useQuery(CHARACTERS_QUERY, {
     variables: {
       page: pageNum,
     },
@@ -60,18 +60,7 @@ export default function Home() {
 
   return (
     <>
-      {loading && (
-        <>
-          <Flex
-            justifyContent={"center"}
-            alignItems={"center"}
-            height={"100vh"}
-          >
-            <Spinner size={"xl"}></Spinner>
-          </Flex>
-        </>
-      )}
-      <Flex p={16} direction={"column"} background={"gray.400"}>
+      <Flex p={8} direction={"column"} background={"teal.500"}>
         <Heading as="h1">Welcome {username}</Heading>
         <Heading as="h2" size={"sm"}>
           {jobTitle}
@@ -81,27 +70,50 @@ export default function Home() {
           Edit details
         </Link>
       </Flex>
-      <Flex p={16} direction={"column"} background={"gray.300"} gap={12}>
-        <SimpleGrid
-          spacing={4}
-          templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
-        >
-          {data?.characters?.results?.map((character) => (
-            <div key={character?.id}>
-              <Card
-                title={character?.name ?? ""}
-                image={character?.image ?? ""}
-                onClick={() => handleClick(character ?? {})}
-              ></Card>
-            </div>
-          ))}
-        </SimpleGrid>
-        <Pagination
-          totalPages={data?.characters?.info?.pages ?? 0}
-          currentPage={pageNum}
-          onClick={handleSearchParams}
-        ></Pagination>
-      </Flex>
+      <Container maxW="container.xl">
+        <Flex pt={16} pb={16} direction={"column"} gap={12}>
+          {loading ? (
+            <Flex
+              justifyContent={"center"}
+              height={"100vh"}
+              alignItems={"center"}
+            >
+              <Spinner size={"xl"} />
+            </Flex>
+          ) : (
+            <>
+              {data?.characters?.results?.length === 0 || error ? (
+                <Flex justifyContent={"center"} height={"100vh"}>
+                  <Text>No results found</Text>
+                </Flex>
+              ) : (
+                <>
+                  <SimpleGrid
+                    spacing={4}
+                    templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+                  >
+                    {data?.characters?.results?.map((character) => (
+                      <div key={character?.id}>
+                        <Card
+                          background={"gray.50"}
+                          title={character?.name ?? ""}
+                          image={character?.image ?? ""}
+                          onClick={() => handleClick(character ?? {})}
+                        ></Card>
+                      </div>
+                    ))}
+                  </SimpleGrid>
+                  <Pagination
+                    totalPages={data?.characters?.info?.pages ?? 1}
+                    currentPage={pageNum}
+                    onClick={handleSearchParams}
+                  ></Pagination>
+                </>
+              )}
+            </>
+          )}
+        </Flex>
+      </Container>
     </>
   );
 }
