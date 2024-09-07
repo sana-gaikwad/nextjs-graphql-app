@@ -40,14 +40,6 @@ export default function Home() {
     },
   });
 
-  if (loading) {
-    return (
-      <Flex justifyContent={"center"} alignItems={"center"} height={"100vh"}>
-        <Spinner size={"xl"}></Spinner>
-      </Flex>
-    );
-  }
-
   const handleClick = (character: Partial<Character> | null) => {
     openModal({
       title: character?.name ?? "",
@@ -68,6 +60,17 @@ export default function Home() {
 
   return (
     <>
+      {loading && (
+        <>
+          <Flex
+            justifyContent={"center"}
+            alignItems={"center"}
+            height={"100vh"}
+          >
+            <Spinner size={"xl"}></Spinner>
+          </Flex>
+        </>
+      )}
       <Flex p={16} direction={"column"} background={"gray.400"}>
         <Heading as="h1">Welcome {username}</Heading>
         <Heading as="h2" size={"sm"}>
