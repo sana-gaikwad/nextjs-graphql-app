@@ -229,6 +229,8 @@ export type CharactersQuery = {
       name?: string | null;
       gender?: string | null;
       species?: string | null;
+      type?: string | null;
+      status?: string | null;
     } | null> | null;
   } | null;
 };
@@ -295,6 +297,11 @@ export const CharactersDocument = {
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "species" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "type" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "status" },
                       },
                     ],
                   },

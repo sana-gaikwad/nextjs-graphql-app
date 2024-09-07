@@ -15,6 +15,8 @@ export const CHARACTERS_QUERY = gql(`
         name
         gender
         species
+        type
+        status
       }
     }
   }
