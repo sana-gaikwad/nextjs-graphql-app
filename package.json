@@ -11,7 +11,8 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write \"**/*.{json,js,ts,tsx,yml,md}\" --list-different .",
     "prepare": "husky",
-    "generate": "graphql-codegen"
+    "generate": "graphql-codegen",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@apollo/client": "^3.11.5",
