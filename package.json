@@ -12,7 +12,9 @@
     "format:fix": "prettier --write \"**/*.{json,js,ts,tsx,yml,md}\" --list-different .",
     "prepare": "husky",
     "generate": "graphql-codegen",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@apollo/client": "^3.11.5",
@@ -34,6 +36,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/client-preset": "^4.3.3",
+    "@playwright/test": "^1.47.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import { useRouter } from "next/navigation";
 
-export default function Login() {
+export default function Home() {
   const router = useRouter();
   const user = useAppSelector((state) => state.persistedReducer.userReducer);
 
